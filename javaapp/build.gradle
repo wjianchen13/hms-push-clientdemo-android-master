@@ -1,0 +1,95 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.huawei.agconnect'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+    defaultConfig {
+        applicationId "com.lokinfo.android.gamemarket.mmshowtest"
+        // minSdkVersion at lest be 24
+        minSdkVersion 24
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    flavorDimensions "version", "subpakage"
+
+    signingConfigs {
+	    // Please replace 'xxx' with your own signature certificate information
+        config {
+            storeFile file('../_storeFile/xiu.jks')
+            keyAlias 'testpush'
+            keyPassword '123456'
+            storePassword '123456'
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+        
+        xiu {
+            storeFile file('../_storeFile/xiu.jks')
+            keyAlias 'testpush'
+            keyPassword '123456'
+            storePassword '123456'
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+
+        papa {
+            storeFile file('../_storeFile/papa.jks')
+            keyAlias 'testpush'
+            keyPassword '123456'
+            storePassword '123456'
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+
+    }
+
+    buildTypes {
+        debug {
+            signingConfig null
+        }
+        release {
+            signingConfig null
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    productFlavors {
+
+        a_main {
+            dimension "version"
+        }
+        
+        xiu {
+            signingConfig signingConfigs.xiu
+            applicationId "com.lokinfo.android.gamemarket.mmshowtest"
+            dimension "subpakage"
+        }
+
+        papa {
+            signingConfig signingConfigs.papa
+            applicationId "com.gzlok.papa.showtest"
+            dimension "subpakage"
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    // push kit
+    implementation 'com.huawei.hms:push:5.0.4.302'
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
+
+agcp{
+    manifest false
+}
